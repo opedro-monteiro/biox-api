@@ -24,7 +24,13 @@ jobs:
         run: npm run test
 
       - name: Build da imagem Docker
-        run: docker build -t my-nest-app .
+        run: docker build -t pedromonteiro7/biox-api:latest .
 
-      - name: Enviar deploy para Render
-        run: curl ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      - name: Login no Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      - name: Enviar imagem para o Docker Hub
+        run: docker push pedromonteiro7/biox-api:latest
+
+      - name: Acionar deploy no Render
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
