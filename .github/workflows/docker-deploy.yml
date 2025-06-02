@@ -1,0 +1,30 @@
+name: CI/CD com Docker e Testes
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar testes
+        run: npm run test
+
+      - name: Build da imagem Docker
+        run: docker build -t my-nest-app .
+
+      - name: Enviar deploy para Render
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
