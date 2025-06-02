@@ -1,98 +1,140 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# 📚 API de Catálogo de Receitas - Desafio BIOX
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Este projeto é uma API desenvolvida em **NestJS + TypeScript** para gerenciar um **catálogo de receitas**, seguindo os princípios de **Clean Architecture** e **DDD (Domain-Driven Design)**. O desafio foi proposto para avaliar habilidades de organização de código, separação de responsabilidades e boas práticas com Node.js.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🚀 Funcionalidades
 
-## Project setup
+- Criar uma nova receita (`POST /recipes`)
+- Listar todas as receitas (`GET /recipes`)
+- Buscar uma receita pelo ID (`GET /recipes/:id`)
 
-```bash
-$ npm install
+---
+
+## 🧠 Arquitetura
+
+A estrutura do projeto segue a **Clean Architecture**, com separação clara entre as camadas:
+
+```
+|-- app.module.ts
+|-- main.ts
+|-- modules
+  |-- recipes
+    |-- recipes.module.ts
+    |-- app
+      |-- dtos
+        |-- create-recipe.dto.ts
+        |-- get-recipe-by-id.dto.ts
+        |-- list-all-recipe.dto.ts
+      |-- use-cases
+        |-- create-recipe.use-case.ts
+        |-- get-recipe-by-id.use-case.ts
+        |-- list-all-recipes.use-case.ts
+    |-- domain
+      |-- entities
+        |-- recipe.entity.ts
+      |-- repositories
+        |-- recipe.repository.ts
+    |-- interfaces
+      |-- http
+        |-- recipe.controller.ts
+    |-- infra
+      |-- presenter
+        |-- recipe.presenter.ts
+      |-- database
+        |-- in-memory
+          |-- in-memory-recipe.repository.ts
+
 ```
 
-## Compile and run the project
+---
+
+## 🛠️ Tecnologias
+
+- [NestJS](https://nestjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Node.js](https://nodejs.org/)
+- Clean Architecture
+- Domain-Driven Design (DDD)
+
+---
+
+## 📦 Instalação
+
+### Pré-requisitos
+
+- Node.js (v18 ou superior)
+- npm
+
+### Passos
 
 ```bash
-# development
-$ npm run start
+# 1. Clone o repositório
+git clone https://github.com/seu-usuario/desafio-biox-api.git
+cd desafio-biox-api
 
-# watch mode
-$ npm run start:dev
+# 2. Instale as dependências
+npm install
 
-# production mode
-$ npm run start:prod
+# 3. Rode a aplicação
+npm run start:dev
 ```
 
-## Run tests
+A API estará disponível em: `http://localhost:3000`
+
+---
+
+## 🧪 Testes
+
+> *Opcional (caso você implemente algum teste)*
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Rodar testes unitários
+npm run test
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 🧾 Exemplo de Entidade: `Recipe`
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```ts
+interface Recipe {
+  id: string
+  title: string
+  description: string
+  ingredients: string[]
+  createdAt: Date
+  updatedAt: Date
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🧑‍💻 Endpoints
 
-Check out a few resources that may come in handy when working with NestJS:
+| Método | Rota            | Descrição                    |
+|--------|------------------|------------------------------|
+| POST   | /recipes         | Cria uma nova receita        |
+| GET    | /recipes         | Lista todas as receitas      |
+| GET    | /recipes/:id     | Busca uma receita por ID     |
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+## 🎁 Extra (opcional)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- [ ] ✅ Teste unitário de 1 use-case
+- [ ] ✅ Deploy em plataforma gratuita (ex: Render, Vercel, Railway)
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 📄 Licença
 
-## License
+Este projeto é apenas para fins de avaliação técnica.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## 🙋‍♂️ Autor
+
+Feito por [Pedro Monteiro] — contato: [pedro.oliveira@monteirodev.com]

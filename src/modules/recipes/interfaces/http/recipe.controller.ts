@@ -3,7 +3,7 @@ import { CreateRecipeUseCase } from '../../app/use-cases/create-recipe.use-case'
 import { RecipeRepository } from '../../domain/repositories/recipe.repository';
 import { RecipePresenter } from '../../infra/presenter/recipe.presenter';
 
-@Controller('recipes')
+@Controller('v1/recipes')
 export class RecipeController {
   constructor(private readonly recipeRepo: RecipeRepository) { }
 
