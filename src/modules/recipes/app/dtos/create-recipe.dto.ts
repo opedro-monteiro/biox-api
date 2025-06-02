@@ -1,9 +1,4 @@
-import { z } from 'zod'
+import z from 'zod'
+import { CreateRecipeSchema } from '../schemas/create-recipe.schema'
 
-export const createRecipeSchema = z.object({
-  title: z.string().min(1, 'O título é obrigatório'),
-  description: z.string().min(1, 'A descrição é obrigatória'),
-  ingredients: z.array(z.string()).min(1, 'Os ingredientes são obrigatórios'),
-})
-
-export type CreateRecipeDTO = z.infer<typeof createRecipeSchema>
+export type CreateRecipeDTO = z.infer<typeof CreateRecipeSchema>
