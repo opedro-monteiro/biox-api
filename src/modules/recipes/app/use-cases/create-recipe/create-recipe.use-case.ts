@@ -1,6 +1,7 @@
 import { Recipe } from '../../../domain/entities/recipe.entity'
 import { RecipeRepository } from '../../../domain/repositories/recipe.repository'
 import { CreateRecipeDTO } from '../../dtos/create-recipe.dto'
+import crypto from 'node:crypto'
 
 export class CreateRecipeUseCase {
   constructor(private readonly recipeRepo: RecipeRepository) {}
