@@ -9,10 +9,14 @@ import { CreateRecipeSchema } from '../../app/schemas/create-recipe.schema'
 import { RecipePresenterDto } from '../../app/swagger/recipe.swagger.dto'
 import { ListAllRecipesUseCase } from '../../app/use-cases/list-all-recipes/list-all-recipes.use-case'
 import { GetRecipeByIdUseCase } from '../../app/use-cases/get-recipe-by-id/get-recipe-by-id.use-case'
+import { ICrypto } from 'src/core/crypto/crypto.interface'
 
 @Controller('v1/recipes')
 export class RecipeController {
-  constructor(private readonly recipeRepo: RecipeRepository) {}
+  constructor(
+    private readonly recipeRepo: RecipeRepository,
+    private readonly crypto: ICrypto
+  ) {}
 
   @Post()
   @ApiBody({
@@ -22,7 +26,7 @@ export class RecipeController {
   })
   @UsePipes(new ZodValidationPipe(CreateRecipeSchema))
   async create(@Body() body: CreateRecipeSwaggerDto) {
-    const useCase = new CreateRecipeUseCase(this.recipeRepo)
+    const useCase = new CreateRecipeUseCase(this.recipeRepo, this.crypto)
     const recipe = await useCase.execute(body)
     return RecipePresenter.toHTTP(recipe)
   }
