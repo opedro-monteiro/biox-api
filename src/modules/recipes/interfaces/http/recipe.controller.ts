@@ -1,17 +1,17 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, UsePipes, Version } from '@nestjs/common'
 import { ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger'
+import { ICrypto } from 'src/core/crypto/crypto.interface'
+import { CreateRecipeSchema } from '../../app/schemas/create-recipe.schema'
+import { CreateRecipeSwaggerDto } from '../../app/swagger/create-recipe-swagger.dto'
+import { RecipePresenterDto } from '../../app/swagger/recipe.swagger.dto'
 import { CreateRecipeUseCase } from '../../app/use-cases/create-recipe/create-recipe.use-case'
+import { GetRecipeByIdUseCase } from '../../app/use-cases/get-recipe-by-id/get-recipe-by-id.use-case'
+import { ListAllRecipesUseCase } from '../../app/use-cases/list-all-recipes/list-all-recipes.use-case'
 import { RecipeRepository } from '../../domain/repositories/recipe.repository'
 import { RecipePresenter } from '../../infra/presenter/recipe.presenter'
-import { CreateRecipeSwaggerDto } from '../../app/swagger/create-recipe-swagger.dto'
 import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
-import { CreateRecipeSchema } from '../../app/schemas/create-recipe.schema'
-import { RecipePresenterDto } from '../../app/swagger/recipe.swagger.dto'
-import { ListAllRecipesUseCase } from '../../app/use-cases/list-all-recipes/list-all-recipes.use-case'
-import { GetRecipeByIdUseCase } from '../../app/use-cases/get-recipe-by-id/get-recipe-by-id.use-case'
-import { ICrypto } from 'src/core/crypto/crypto.interface'
 
-@Controller('v1/recipes')
+@Controller('recipes')
 export class RecipeController {
   constructor(
     private readonly recipeRepo: RecipeRepository,
@@ -19,6 +19,7 @@ export class RecipeController {
   ) {}
 
   @Post()
+  @Version('1')
   @ApiBody({
     type: CreateRecipeSwaggerDto,
     description: 'Criar uma receita',
@@ -32,6 +33,7 @@ export class RecipeController {
   }
 
   @Get()
+  @Version('1')
   @ApiResponse({
     status: 200,
     description: 'Lista de receitas',
