@@ -1,7 +1,7 @@
 
 # 📚 API de Catálogo de Receitas - Desafio BIOX
 
-Este projeto é uma API desenvolvida em **NestJS + TypeScript** para gerenciar um **catálogo de receitas**, seguindo os princípios de **Clean Architecture** e **DDD (Domain-Driven Design)**. O desafio foi proposto para avaliar habilidades de organização de código, separação de responsabilidades e boas práticas com Node.js.
+Este projeto é uma API desenvolvida em **NestJS + TypeScript** para gerenciar um **catálogo de receitas**, seguindo os princípios de **Clean Architecture** e **DDD (Domain-Driven Design)**. O desafio foi proposto para avaliar habilidades de organização de código, separação de responsabilidades e boas práticas com Node.js. Foi utilizado o Swagger para criar a interface e documentação pra facilitar o uso. Ademais foi feito um deploy no render, usando docker com github actions.
 
 ---
 
@@ -20,18 +20,16 @@ A estrutura do projeto segue a **Clean Architecture**, com separação clara ent
 ```
 |-- app.module.ts
 |-- main.ts
+|-- core
+  |-- swagger.config.ts
+  |-- crypto
+    |-- crypto.interface.ts
+|-- infra
+  |-- crypto
+    |-- uuid.ts
 |-- modules
   |-- recipes
     |-- recipes.module.ts
-    |-- app
-      |-- dtos
-        |-- create-recipe.dto.ts
-        |-- get-recipe-by-id.dto.ts
-        |-- list-all-recipe.dto.ts
-      |-- use-cases
-        |-- create-recipe.use-case.ts
-        |-- get-recipe-by-id.use-case.ts
-        |-- list-all-recipes.use-case.ts
     |-- domain
       |-- entities
         |-- recipe.entity.ts
@@ -40,13 +38,34 @@ A estrutura do projeto segue a **Clean Architecture**, com separação clara ent
     |-- interfaces
       |-- http
         |-- recipe.controller.ts
+      |-- pipes
+        |-- zod-validation.pipe.ts
     |-- infra
       |-- presenter
         |-- recipe.presenter.ts
       |-- database
         |-- in-memory
           |-- in-memory-recipe.repository.ts
-
+    |-- app
+      |-- dtos
+        |-- create-recipe.dto.ts
+        |-- get-recipe-by-id.dto.ts
+        |-- list-all-recipe.dto.ts
+      |-- schemas
+        |-- create-recipe.schema.ts
+        |-- get-recipe-by-id.schema.ts
+        |-- list-all-recipe.schema.ts
+      |-- swagger
+        |-- create-recipe-swagger.dto.ts
+        |-- recipe.swagger.dto.ts
+      |-- use-cases
+        |-- create-recipe
+          |-- create-recipe.use-case.spec.ts
+          |-- create-recipe.use-case.ts
+        |-- list-all-recipes
+          |-- list-all-recipes.use-case.ts
+        |-- get-recipe-by-id
+          |-- get-recipe-by-id.use-case.ts
 ```
 
 ---
@@ -58,6 +77,7 @@ A estrutura do projeto segue a **Clean Architecture**, com separação clara ent
 - [Node.js](https://nodejs.org/)
 - Clean Architecture
 - Domain-Driven Design (DDD)
+- Swagger
 
 ---
 
@@ -72,7 +92,7 @@ A estrutura do projeto segue a **Clean Architecture**, com separação clara ent
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/desafio-biox-api.git
+git clone https://github.com/opedro-monteiro/biox-api
 cd desafio-biox-api
 
 # 2. Instale as dependências
@@ -82,13 +102,15 @@ npm install
 npm run start:dev
 ```
 
-A API estará disponível em: `http://localhost:3000`
+A API estará disponível em: 
+`http://localhost:3000/api/docs` 
+ou em 
+`https://biox-api-latest.onrender.com/api/docs`
 
 ---
 
 ## 🧪 Testes
-
-> *Opcional (caso você implemente algum teste)*
+> *Opcional*
 
 ```bash
 # Rodar testes unitários
@@ -114,18 +136,18 @@ interface Recipe {
 
 ## 🧑‍💻 Endpoints
 
-| Método | Rota            | Descrição                    |
-|--------|------------------|------------------------------|
-| POST   | /recipes         | Cria uma nova receita        |
-| GET    | /recipes         | Lista todas as receitas      |
-| GET    | /recipes/:id     | Busca uma receita por ID     |
+| Método | Rota                     | Descrição                    |
+|--------|------------------|--------------------------------------|
+| POST   | /api/v1/recipes          | Cria uma nova receita        |
+| GET    | /api/v1/recipes         | Lista todas as receitas      |
+| GET    | /api/v1/recipes/:id     | Busca uma receita por ID     |
 
 ---
 
 ## 🎁 Extra (opcional)
 
-- [ ] ✅ Teste unitário de 1 use-case
-- [ ] ✅ Deploy em plataforma gratuita (ex: Render, Vercel, Railway)
+- [ ✅ ]  Teste unitário de 1 use-case
+- [ ✅ ]  Deploy em plataforma gratuita (Render)
 
 ---
 
@@ -137,4 +159,4 @@ Este projeto é apenas para fins de avaliação técnica.
 
 ## 🙋‍♂️ Autor
 
-Feito por [Pedro Monteiro] — contato: [pedro.oliveira@monteirodev.com]
+Feito por Pedro Monteiro — contato: pedro.oliveira@monteirodev.com
